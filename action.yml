@@ -1,4 +1,4 @@
-name: 'Most likely I can list this'
+name: 'Use this GitHub Action with your project Use this GitHub Action with your project'
 description: 'This is a description for this action'
 on: 
   workflow_call:

@@ -1,4 +1,5 @@
 name: 'Most likely I can list this'
+description: 'This is a description for this action'
 on: 
   workflow_call:
     inputs:

@@ -1,3 +1,3 @@
-### Pitfalls
+### 🧪 Playground for actions
 
-Some [pitfalls when running the development site](https://github.com/arisacoba/playground-actions/wiki/Pitfalls-when-running-the-development-site)
+Nothing to see here

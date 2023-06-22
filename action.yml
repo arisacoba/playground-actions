@@ -1,7 +1,8 @@
+name: Playgroun
 on: 
   workflow_call:
     inputs:
       config-path:
 runs:
   steps:
-    - run: echo "Running on tag 2.2.0"
+    - run: echo "Running on tag 1.0.2"

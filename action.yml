@@ -1,4 +1,5 @@
-name: Playgroun
+name: Playground actions
+description: Nothing to see here
 on: 
   workflow_call:
     inputs:

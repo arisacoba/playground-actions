@@ -1,0 +1,110 @@
+name: build
+on:
+  schedule:
+    - cron: '0 10 * * *'  # everyday at 10am
+  workflow_dispatch:
+  push:
+    branches:
+      - 'master'
+    tags:
+      - 'v*'
+      - 'dockerfile/*'
+  pull_request:
+    branches:
+      - 'master'
+
+jobs:
+  base:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+
+  test:
+    runs-on: ubuntu-latest
+    needs: [base]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          -
+            pkg: ./client
+            typ: integration
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+
+  test-os:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          # - ubuntu-latest
+          # - macOS-latest
+          - windows-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+
+  upload-coverage:
+    runs-on: ubuntu-latest
+    needs: [frontend-base, test, test-os]
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+
+  cross:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+
+  release-base:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare
+        id: prep
+        run: echo
+
+  image:
+    runs-on: ubuntu-latest
+    needs: [release-base, test, cross]
+    strategy:
+      fail-fast: false
+      matrix:
+        target-stage:
+          - ''
+          - rootless
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+
+  binaries:
+    runs-on: ubuntu-latest
+    needs: [release-base, test, cross]
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+
+  frontend-base:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
+    steps:
+      - run: echo
+
+  frontend-image:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
+    needs: [frontend-base, test]
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2

@@ -1,0 +1,46 @@
+name: Run Workflow Dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      text_input1:
+        required: false
+      text_input2:
+        required: false
+      text_input3:
+        required: false
+      text_input4:
+        description: 'Enter some text'
+        required: false
+      Deployment Environment:
+        type: environment
+      boolean_input:
+        description: 'Enter a boolean value'
+        required: false
+        default: 'true'
+      number_input:
+        description: 'Enter a number'
+        required: false
+      choice_input:
+        description: 'Choose an option'
+        required: false
+        default: 'Option1'
+        options: ['Option1', 'Option2', 'Option3']
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
+jobs:
+  printInputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Inputs
+        run: |
+          echo "Text input: ${{ github.event.inputs.text_input }}"
+          echo "Boolean input: ${{ github.event.inputs.boolean_input }}"
+          echo "Number input: ${{ github.event.inputs.number_input }}"
+          echo "Choice input: ${{ github.event.inputs.choice_input }}"

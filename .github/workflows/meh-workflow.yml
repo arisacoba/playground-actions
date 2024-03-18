@@ -17,9 +17,6 @@ on:
         description: 'Enter a boolean value'
         required: false
         default: 'true'
-      number_input:
-        description: 'Enter a number (error)'
-        required: falzse
       choice_input:
         description: 'Choose an option'
         required: false
@@ -40,7 +37,7 @@ jobs:
     steps:
       - name: Print Inputs
         run: |
-          echo "Text input: ${{ github.event.inputs.text_input }}"
+          ezcho "Text input: ${{ github.event.inputs.text_input }}"
           echo "Boolean input: ${{ github.event.inputs.boolean_input }}"
           echo "Number input: ${{ github.event.inputs.number_input }}"
           echo "Choice input: ${{ github.event.inputs.choice_input }}"

@@ -1,4 +1,4 @@
-name: Run Workflow Dispatch
+name: Meh Workflow Dispatch
 on:
   workflow_dispatch:
     inputs:

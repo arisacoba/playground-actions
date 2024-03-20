@@ -1,0 +1,30 @@
+name: Disable - thesnowrose
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disable the workflow
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          file=disable-response.json
+          rm "$response_file" 1>/dev/null 2>&1 || :
+          # Fetch workflow file name
+          workflow_path=`echo $GITHUB_CONTEXT | jq -r ".event.workflow"`
+          echo "workflow: " $workflow_path
+          workflow_file_name=`basename $workflow_path`
+          auth="Authorization: bearer $GITHUB_TOKEN"
+          url="$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/workflows/$workflow_file_name/disable"
+          echo $url
+          # Invoke the REST API
+          code=$(curl --silent --show-error --write-out '%{http_code}' --output "$file" --header "$auth" --request PUT "$url")
+          # Dump the response body
+          cat "$file" || :
+          # Check the HTTP code
+          echo "HTTP code $code"
+          if [[ "$code" != '204' ]]; then
+            exit 1
+          fi
